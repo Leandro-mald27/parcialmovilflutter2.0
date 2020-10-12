@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'Bd/BdMaterias.dart';
+import 'actividadesModelo.dart';
 import 'materia.dart';
 import 'actividades.dart';
 class formMateria extends StatefulWidget{
@@ -6,6 +8,8 @@ class formMateria extends StatefulWidget{
   formMaterialState createState()=> formMaterialState();
 
 }
+
+
 
 class formMaterialState extends State<formMateria>{
   final scaffelkey= new GlobalKey<ScaffoldState>();

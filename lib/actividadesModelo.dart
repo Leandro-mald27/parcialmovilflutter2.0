@@ -7,6 +7,10 @@ class Actividades{
   String porcentaje="";
   String notaActividad="";
   String definitiva;
+  String definitivaGeneral;
+  static int total=100;
+  static int contaPorcentaje=0;
+  static double definitivaTotal=0;
 
 
   Actividades(this.idActividad, this.nombreActividad, this.notaActividad,
@@ -22,13 +26,18 @@ class Actividades{
     };
   }
   String CalcularDefinitivaActividad (String nota,String Porcentaje){
-
-    var def= double.parse(nota)* (double.parse(Porcentaje))/100;
-    this.definitiva= def.toString();
-    return this.definitiva;
+    contaPorcentaje = contaPorcentaje + int.parse(Porcentaje);
+    if(contaPorcentaje<= total){
+      var def= double.parse(nota)* (double.parse(Porcentaje))/100;
+      this.definitiva= def.toString();
+      definitivaTotal=definitivaTotal + double.parse(this.definitiva);
+      this.definitivaGeneral=definitivaTotal.toString();
+      return this.definitiva;
+    }
+    return "-1";
 
   }
 
   Actividades.ActividadesConsulta (this.idActividad, this.nombreActividad, this.porcentaje,
-      this.notaActividad, this.definitiva);
+      this.notaActividad, this.definitiva, this.definitivaGeneral);
 }

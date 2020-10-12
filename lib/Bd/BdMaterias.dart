@@ -18,14 +18,14 @@ class DBHelper{
 
   Future<Database> initDB() async{
     io.Directory documentsDirectory= await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path,"PARCIALMOVIL.db");
+    String path = join(documentsDirectory.path,"PARCIALMOVIL4.db");
     var theDb= await openDatabase(path,version: 1,onCreate: _onCreate);
     return theDb;
   }
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-        "CREATE TABLE ACTIVIDADES(idActividad TEXT PRIMARY KEY, nombreActividad TEXT,notaActividad TEXT, porcentaje TEXT,def TEXT)");
+        "CREATE TABLE ACTIVIDADES(idActividad TEXT PRIMARY KEY, nombreActividad TEXT,notaActividad TEXT, porcentaje TEXT,def TEXT, totalDef TEXT)");
     print("Created tables");
   }
   Future<List<Actividades>> getEmployees() async {
@@ -41,6 +41,7 @@ class DBHelper{
        queryList[i]['notaActividad'],
        queryList[i]['porcentaje'],
        queryList[i]['def'],
+       queryList[i]['totalDef'],
      ));
    }
    return listaActividades;
@@ -51,30 +52,38 @@ class DBHelper{
       if((double.parse(actividad.notaActividad)>=0.0 || double.parse(actividad.notaActividad)<=5) && (int.parse(actividad.porcentaje)>0
           || int.parse(actividad.porcentaje)<=100)){
         actividad.definitiva=actividad.CalcularDefinitivaActividad(actividad.notaActividad, actividad.porcentaje);
-        return await txn.rawInsert(
-            'INSERT INTO ACTIVIDADES(idActividad,nombreActividad,notaActividad, porcentaje,def ) VALUES(' +
-                '\'' +
-                actividad.idActividad +
-                '\'' +
-                ',' +
-                '\'' +
-                actividad.nombreActividad +
-                '\'' +
-                ',' +
-                '\'' +
-                actividad.notaActividad +
-                '\'' +
-                ',' +
-                '\'' +
-                actividad.porcentaje +
-                '\'' +
-                ',' +
-                '\'' +
-                actividad.definitiva +
-                '\'' +
-                ')');
+        if(actividad.definitiva!="-1"){
+          return await txn.rawInsert(
+              'INSERT INTO ACTIVIDADES(idActividad,nombreActividad,notaActividad, porcentaje,def,totalDef ) VALUES(' +
+                  '\'' +
+                  actividad.idActividad +
+                  '\'' +
+                  ',' +
+                  '\'' +
+                  actividad.nombreActividad +
+                  '\'' +
+                  ',' +
+                  '\'' +
+                  actividad.notaActividad +
+                  '\'' +
+                  ',' +
+                  '\'' +
+                  actividad.porcentaje +
+                  '\'' +
+                  ',' +
+                  '\'' +
+                  actividad.definitiva +
+                  '\'' +
+                  ',' +
+                  '\'' +
+                  actividad.definitivaGeneral +
+                  '\'' +
+                  ')');
+        }
+
       }
 
     });
   }
+
 }

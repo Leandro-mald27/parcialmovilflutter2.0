@@ -49,6 +49,9 @@ class MyEmployeeListPageState extends State<MyEmployeeList> {
                           new Text("DEFINITIVA ACTIVIDAD: " + snapshot.data[index].definitiva.toString(),
                               style: new TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 14.0)),
+                          new Text("DEFINITIVA GENERAL MATERIA: " + snapshot.data[index].definitivaGeneral,
+                              style: new TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14.0)),
                           new Divider()
                         ]);
                   });
